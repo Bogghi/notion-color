@@ -1,0 +1,10 @@
+{
+    "manifest_version": 2,
+    "name": "notion_color",
+    "description": "change default color in notion",
+    "version": "1.0",
+    "content_scripts": [{
+        "matches": ["https://www.notion.so/*"],
+        "css": ["main.css"]
+    }]
+}
