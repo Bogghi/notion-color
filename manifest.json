@@ -10,6 +10,7 @@
     "browser_action": {},
     "permissions": [
         "tabs",
-        "https://www.notion.so/*"
+        "https://www.notion.so/*",
+        "storage"
     ]
 }

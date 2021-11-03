@@ -23,4 +23,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
             e.value = hex;
         }
     }
+
+    document.getElementById('app-col').addEventListener('click', ()=>{
+        let D = {},
+            valArr = document.querySelectorAll(`[form='sub-col']`);
+        
+        for (const k in valArr) {
+            if (Object.hasOwnProperty.call(valArr, k)) {
+                const es = valArr[k];
+                D[es.getAttribute('name')] = es.value;
+            }
+        }
+
+        chrome.storage.local.set(D, ()=>{
+            console.log('storage set to: ', D);
+        })
+    });
 });
