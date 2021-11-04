@@ -12,7 +12,8 @@ var list = {
     };
 
 document.addEventListener('DOMContentLoaded', ()=>{
-    let col = document.querySelectorAll('.def-col');
+    let col = document.querySelectorAll('.def-col'),
+        upCol = document.querySelectorAll(`[form='sub-col']`);
 
     for (const k in col) {
         if (Object.hasOwnProperty.call(col, k)) {
@@ -24,23 +25,33 @@ document.addEventListener('DOMContentLoaded', ()=>{
         }
     }
 
-    document.getElementById('app-col').addEventListener('click', ()=>{
-        let D = {},
-            valArr = document.querySelectorAll(`[form='sub-col']`);
-        
-        for (const k in valArr) {
-            if (Object.hasOwnProperty.call(valArr, k)) {
-                const es = valArr[k];
-                D[es.getAttribute('name')] = es.value;
-            }
-        }
-
-        chrome.storage.sync.set(D, ()=>{
-            notie.alert({
-                type: 'success',
-                text: 'Colori aggiornati, prova a ricaricare la pagina',
-                position: 'top'
+    for (const k in upCol) {
+        if (Object.hasOwnProperty.call(upCol, k)) {
+            const e = upCol[k];
+            let col = e.getAttribute('name');
+            chrome.storage.sync.get(col, res => {
+                e.value = res[col];
             })
+        }
+    }
+});
+
+document.getElementById('app-col').addEventListener('click', ()=>{
+    let D = {},
+        valArr = document.querySelectorAll(`[form='sub-col']`);
+    
+    for (const k in valArr) {
+        if (Object.hasOwnProperty.call(valArr, k)) {
+            const es = valArr[k];
+            D[es.getAttribute('name')] = es.value;
+        }
+    }
+
+    chrome.storage.sync.set(D, ()=>{
+        notie.alert({
+            type: 'success',
+            text: 'Colori aggiornati, prova a ricaricare la pagina',
+            position: 'top'
         })
-    });
+    })
 });
