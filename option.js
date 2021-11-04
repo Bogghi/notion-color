@@ -35,8 +35,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
             }
         }
 
-        chrome.storage.local.set(D, ()=>{
-            console.log('storage set to: ', D);
+        chrome.storage.sync.set(D, ()=>{
+            notie.alert({
+                type: 'success',
+                text: 'Colori aggiornati, prova a ricaricare la pagina',
+                position: 'top'
+            })
         })
     });
 });
