@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const e = col[k];
             let color = e.getAttribute('color'),
                 hex = tinycolor(list[color]).toHexString();
-            console.log(color, list[color], hex);
+            
             e.value = hex;
         }
     }
@@ -30,7 +30,12 @@ document.addEventListener('DOMContentLoaded', ()=>{
             const e = upCol[k];
             let col = e.getAttribute('name');
             chrome.storage.sync.get(col, res => {
-                e.value = res[col];
+                let val = tinycolor(list[col]).toHexString();
+                if(e.value === '#000000' && res[col] === '#000000'){
+                    e.value = val;
+                }else {
+                    e.value = res[col];
+                }
             })
         }
     }
@@ -50,7 +55,7 @@ document.getElementById('app-col').addEventListener('click', ()=>{
     chrome.storage.sync.set(D, ()=>{
         notie.alert({
             type: 'success',
-            text: 'Colori aggiornati, prova a ricaricare la pagina',
+            text: 'Colori aggiornati',
             position: 'top'
         })
     })

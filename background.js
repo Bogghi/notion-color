@@ -10,22 +10,27 @@ let colSelector = {
     "red": `*[style="color: rgb(212, 76, 71); fill: rgb(225, 111, 100);"]`
 }
 
-chrome.tabs.onActivated.addListener(tab => {
-    let tId = tab.tabId;
-    chrome.tabs.get(tId, current_tab_info => {
+chrome.tabs.onActivated.addListener(tab => { setColor(tab.tabId) });
+chrome.tabs.onUpdated.addListener(tab => setColor(tab));
+
+
+chrome.browserAction.onClicked.addListener(()=>{
+    chrome.runtime.openOptionsPage();
+});
+
+var setColor = tabId => {
+    chrome.tabs.get(tabId, current_tab_info => {
         if(/^https:\/\/www\.notion/.test(current_tab_info.url)){
 
             for (const k in colSelector) {
                 if (Object.hasOwnProperty.call(colSelector, k)) {
                     const sel = colSelector[k];
                     let color, css;
-                    
+
                     chrome.storage.sync.get(k, res => {
                         color = res[k];
-                        console.log(res, k, color);
                         
                         css = `${sel} { color: ${color} !important }`;
-                        console.log(css);
                         chrome.tabs.insertCSS(null, {code: css});
                     })
                     
@@ -35,8 +40,4 @@ chrome.tabs.onActivated.addListener(tab => {
 
         }
     });
-});
-
-chrome.browserAction.onClicked.addListener(()=>{
-    chrome.runtime.openOptionsPage();
-});
+}
