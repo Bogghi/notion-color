@@ -1,3 +1,5 @@
+/* this file was an experiment to test the css selector and css injection */
+
 /* grigio a rosso */
 *[style="color: rgb(120, 119, 116); fill: rgb(145, 145, 142);"] {
     color: red !important;
