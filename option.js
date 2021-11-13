@@ -41,7 +41,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
     }
 });
 
-document.getElementById('app-col').addEventListener('click', ()=>{
+let appColor = new CustomEvent('appColor')
+
+document.addEventListener('appColor', ()=>{
     let D = {},
         valArr = document.querySelectorAll(`[form='sub-col']`);
     
@@ -60,3 +62,20 @@ document.getElementById('app-col').addEventListener('click', ()=>{
         })
     })
 });
+document.getElementById('app-col').addEventListener('click',()=>{
+    document.dispatchEvent(appColor);
+})
+
+document.getElementById('res-col').addEventListener('click',()=>{
+    let D = {},
+        val = document.querySelectorAll(`[form='sub-col']`);
+    
+    for (const k in val) {
+        if (Object.hasOwnProperty.call(val, k)) {
+            const e = val[k];
+            let type = e.getAttribute('name');
+            e.value = tinycolor(list[type]).toHexString();
+            document.dispatchEvent(appColor);
+        }
+    }
+})
